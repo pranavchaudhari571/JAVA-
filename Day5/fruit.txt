@@ -1,0 +1,287 @@
+package com.app.fruits;
+
+public class Fruit {
+
+	private String color;
+	private double weight;
+	private String name;
+	private boolean fresh;
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isFresh() {
+		return fresh;
+	}
+
+	public void setFresh(boolean fresh) {
+		this.fresh = fresh;
+	}
+
+	public Fruit(String color, double weight, String name, boolean fresh) {
+		super();
+		this.color = color;
+		this.weight = weight;
+		this.name = name;
+		this.fresh=fresh;
+	}
+	
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Color:"+color+" weight: "+weight+" Name: "+name+" Fresh: "+fresh;
+	}
+
+	
+
+	public String taste()
+	{
+		return "No specific Taste";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+package com.app.fruits;
+
+public class Apple extends Fruit {
+
+	public Apple() {
+		super("red", 3,"Apple",true);
+
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
+	public String taste()
+	{
+		return "Sweet and sour";
+	}
+	
+	public void jam()
+	{
+		System.out.println("Name: "+getName()+"  Making Jam!.......");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+package com.app.fruits;
+
+public class Mango extends Fruit {
+
+	public Mango() {
+		super("Yellow", 10, "Mango", true);
+
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
+	public String taste()
+	{
+		return "Sweet";
+	}
+	public void pulp()
+	{
+		System.out.println("Name: "+getName()+" Color: "+getColor()+" Creating Pulp!......");
+	}
+}
+
+
+
+
+
+
+
+
+package com.app.fruits;
+
+public class Orange extends Fruit {
+
+	public Orange() {
+		super("orange", 5,"orange", true);
+
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
+	
+	public String taste() {
+		return "Sour";
+	}
+	public void juice()
+	{
+		System.out.println("Name: "+getName()+" Weight: "+getWeight()+" Extracting Juice!.........");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+package tester;
+
+import java.util.Scanner;
+import com.app.fruits.*;
+
+public class FruitBasket {
+	
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		boolean done = false;
+		int counter = 0;
+		System.out.println("Please enter the basket size:");
+		Fruit[] fruits = new Fruit[sc.nextInt()];// create array of fruits as basket datastructure
+
+		while (!done) {
+			System.out.println("**********Menu*************");
+			System.out.println("1: Add Mango\n2: Add Orange\n3: Add Apple\n"
+					+ "4: Display All fruits\n5: Display all fresh fruit Info\n6:Mark As Stale\n7: Mark all sour as stale \n8:Invoke Fruit Specific Functionality \n 9:Exit");
+			System.out.println("Enter the choice");
+			switch (sc.nextInt()) {
+			case 1:// Add mango
+				if (counter < fruits.length) {
+
+					fruits[counter++] = new Mango();
+					System.out.println("Added Mango!");
+
+				} else
+					System.out.println("Basket is Fulled");
+				break;
+			case 2:// add Orange
+				if (counter < fruits.length) {
+
+					fruits[counter++] = new Orange();//counter++;
+					System.out.println("Added Orange!");
+
+				} else
+					System.out.println("Basket is Fulled");
+				break;
+
+			case 3:// add apple
+
+				if (counter < fruits.length) {
+
+					fruits[counter++] = new Apple();
+					System.out.println("Added Apple!");
+
+				} else
+					System.out.println("Basket is Fulled");
+				break;
+			case 4:// display all fruits
+				for (Fruit fruit : fruits)
+					if (fruit != null)
+						System.out.println(fruit);
+				break;
+			case 5:// display only fresh
+				for (Fruit fruit : fruits)
+					if (fruit != null)
+						if (fruit.isFresh())
+							System.out.println(fruit);
+				break;
+			case 6:// mark as stale
+				System.out.println("Enter Index");
+				int index = sc.nextInt();
+				if (index > 0 && index <= counter) {
+					fruits[index - 1].setFresh(false);
+					System.out.println("Marked Stale");
+				}
+
+				else
+					System.out.println("INVALID INDEX!!	");
+				break;
+			case 7:// Mark all sour fruit stale
+				System.out.println("Marking all sour as stale ");
+				int c = 0;
+				for (Fruit fruit : fruits) {
+					if (fruit != null) {
+						if (fruit.taste().equals("Sour")) {
+							fruit.setFresh(false);
+							c++;
+						}
+					}
+				}
+				System.out.println(c + " Marked as Stale");
+				break;
+
+			case 8:// Calling specific functionality
+				for (Fruit fruit : fruits) {
+					if (fruit != null) {
+						if (fruit instanceof Apple) {
+							((Apple) fruit).jam();
+						} else if (fruit instanceof Mango) {
+							((Mango) fruit).pulp();
+
+						} else if (fruit instanceof Orange) {
+							((Orange) fruit).juice();
+
+						}
+					}
+				}
+				break;
+			case 9:// exit
+				done = true;
+				System.out.println("Bye!..........  :)");
+				break;
+
+			}
+		}
+		sc.close();
+	}
+
+}
